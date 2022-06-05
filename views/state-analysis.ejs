@@ -1,0 +1,82 @@
+<%- include ('partials/top') %>
+
+<h2 class="title text-white text-center">State by State Analysis</h2>
+<% /* %>
+<div class="row">
+  <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+    <table class="table table-striped text-white mx-auto">
+      <thead>
+        <tr>
+          <td>#</td><td>State</td><td>Registered Persons</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% states.forEach((s, i) => { %>
+          <tr>
+            <td><%= i %></td><td><%= s %></td><td><%= states_stat[i] %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div> 
+
+<% */ %>
+
+<canvas id="myChart" style="width:100%;"></canvas> -->
+
+<script src="/js/chart.js"></script>
+
+<script>
+   window.onload = () => {
+
+    $.get('http://localhost:3800/state-analysis-data').done((data) => {
+      console.log(data)
+      var xValues = data.labels
+      var yValues = data.stats
+
+      new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: 'red',
+          data: yValues
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Population By States"
+        },
+        legend: {
+          labels: {
+            fontColor: "white",
+            fontSize: 18,
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              fontColor: "pink",
+              fontSize: 18,
+              stepSize: 1,
+              beginAtZero: true
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              fontColor: "white",
+              fontSize: 14,
+              stepSize: 1,
+              beginAtZero: true
+            }
+          }]
+        } 
+      }
+      });
+    })
+}
+
+</script>  
+<%- include ('partials/bottom') %>

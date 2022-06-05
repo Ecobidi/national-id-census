@@ -1,0 +1,45 @@
+<%- include ('partials/top') %>
+
+<h2 class="title text-white text-center">Regional Analysis</h2>
+
+<canvas id="myChart" style="width:100%;"></canvas> -->
+
+<script src="/js/chart.js"></script>
+
+<script>
+
+  window.onload = () => {
+
+  $.get('http://localhost:3800/regional-analysis-data').done((data) => {
+    console.log(data)
+    var xValues = data.labels
+    var yValues = data.stats
+    var barColors = ["red", "green","blue","orange","brown", "yellow"];
+
+    new Chart("myChart", {
+    type: "pie",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Population By Regions"
+      },
+      legend: {
+        labels: {
+          fontColor: "white",
+          fontSize: 18
+        }
+      } 
+    }
+    });
+  })
+ 
+  }
+</script>  
+<%- include ('partials/bottom') %>
